@@ -26,7 +26,7 @@ my $csv = Text::CSV_XS-> new({binary => 1});
 
 while(my $columns = $csv->getline($fh)){
 
-    #ƒ^ƒCƒgƒ‹s‚ð”ò‚Î‚·
+    #ã‚¿ã‚¤ãƒˆãƒ«è¡Œã‚’é£›ã°ã™
     next if(($columns->[0]) eq "ID");
     
     my $eles = {};
@@ -37,7 +37,7 @@ while(my $columns = $csv->getline($fh)){
     foreach my $i(1..$#fields){
         $valuelist .= ",\'".$eles->{$fields[$i]}."\'";
     }
-    print "insert into suica ($fieldlist) values ($valuelist)\n";
+    #print "insert into suica ($fieldlist) values ($valuelist)\n";
     $dbh->do("insert into suica ($fieldlist) values ($valuelist)");
 }
 
