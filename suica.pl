@@ -55,7 +55,7 @@ while(my $columns = $csv->getline($fh)){
     }
     my $valuelist = $eles->{'id'};
     foreach my $i(1..$#fields){
-        $valuelist .= ",\'".$eles->{$fields[$i]}."\'";
+        $valuelist .= ",\'".decode('Shift_JIS',$eles->{$fields[$i]})."\'";
     }
     #print "insert into suica ($fieldlist) values ($valuelist)\n";
     $dbh->do("insert into suica ($fieldlist) values ($valuelist)");
