@@ -40,7 +40,7 @@ foreach (@fields){
     $typelist .= $_." ".$data_type->{$_}.",";
 }
 
-$dbh->do("create table if not exists suica ($fieldlist)");
+$dbh->do("create table if not exists suica ($fieldlist,primary key(id,date))");
 
 open my $fh,'<',$filename or die "$!";
 
