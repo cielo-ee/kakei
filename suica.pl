@@ -1,5 +1,7 @@
 #!/usr/bin/perl
 
+#スイ家計簿の出力ファイルからsqliteのデータベースに格納する
+
 use strict;
 use warnings;
 
