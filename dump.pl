@@ -13,7 +13,7 @@ my $filename = shift;
 
 my $dbh = DBI->connect("dbi:SQLite:dbname=test.db");
 
-my $stmt = "select * from suica";
+my $stmt = "select * from suica order by id asc";
 my $sth  = $dbh->prepare($stmt);
 $sth -> execute;
 
