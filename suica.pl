@@ -59,7 +59,7 @@ while(my $columns = $csv->getline($fh)){
     }
     my $valuelist = $eles->{'id'};
     foreach my $i(1..$#fields){
-        $valuelist .= ",\'".decode('Shift_JIS',$eles->{$fields[$i]})."\'";
+        $valuelist .= ",\'".decode('UTF-8',$eles->{$fields[$i]})."\'";
     }
 
     #重複データを検査する
