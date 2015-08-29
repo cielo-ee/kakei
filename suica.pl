@@ -31,6 +31,8 @@ my $data_type = {'id'        => 'int',
 
 
 
+my $autoupdate = 1;
+
 my $dbh = DBI->connect("dbi:SQLite:dbname=test.db");
 
 my $fieldlist = join ',',@fields;
@@ -59,7 +61,13 @@ while(my $columns = $csv->getline($fh)){
     foreach my $i(1..$#fields){
         $valuelist .= ",\'".decode('Shift_JIS',$eles->{$fields[$i]})."\'";
     }
-    #print "insert into suica ($fieldlist) values ($valuelist)\n";
+
+    #重複データを検査する
+    my $stmt = "select * from suica where id = $columns->[0]";
+    my $sth  = $dbh -> prepare($stmt);
+    $sth -> execute;
+    next if($sth->fetchrow_array);
+    
     $dbh->do("insert into suica ($fieldlist) values ($valuelist)");
 }
 
