@@ -59,7 +59,10 @@ while(my $columns = $csv->getline($fh)){
 
     my $valuelist = $eles->{'id'};
     foreach my $i(1..$#fields){
-        $valuelist .= ",\'".decode('UTF-8',$eles->{$fields[$i]})."\'";
+        my $value = decode('UTF-8',$eles->{$fields[$i]});
+        $value =~ s/￥|,//g if($fields[$i] eq 'fare');
+        $value =~ s/￥|,//g if($fields[$i] eq 'balance');
+        $valuelist .= ",\'".$value."\'";
     }
 
     #重複データを検査する
