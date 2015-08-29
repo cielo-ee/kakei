@@ -49,14 +49,14 @@ open my $fh,'<',$filename or die "$!";
 my $csv = Text::CSV_XS-> new({binary => 1});
 
 while(my $columns = $csv->getline($fh)){
+    #ハッシュにマッピング
+    my $eles;
+    @$eles{@fields} = @$columns;
+
 
     #タイトル行を飛ばす
-    next if(($columns->[0]) eq "ID");
-    
-    my $eles = {};
-    foreach my $i(0 .. $#fields){
-        $eles->{$fields[$i]} = $columns->[$i];
-    }
+    next if($eles->{'id'} eq "ID");
+
     my $valuelist = $eles->{'id'};
     foreach my $i(1..$#fields){
         $valuelist .= ",\'".decode('UTF-8',$eles->{$fields[$i]})."\'";
