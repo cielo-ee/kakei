@@ -8,7 +8,6 @@ use utf8;
 
 use DBI;
 
-use Text::CSV_XS;
 
 my $filename = shift;
 
