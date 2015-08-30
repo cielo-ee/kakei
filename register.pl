@@ -13,8 +13,14 @@ use DBI;
 use Text::CSV_XS;
 
 my $filename = shift;
-
-my @fields = qw/id date agency s_station s_comp s_line e_station e_comp e_line fare balance /;
+my ($mday,$mon,$year) = (localtime(time))[3..5];
+$year += 1900;
+$mon++;
+my $date = sprintf "%d/%02d/%02d",$year,$mon,$mday;
+     
+my @main_fields = qw/id date agency s_station s_comp s_line e_station e_comp e_line fare balance /; #CSVに含まれているフィールド
+my @option_fields = qw/filename registration_date /;
+my @fields = (@main_fields,@option_fields);
 
 my $data_type = {'id'        => 'int',
                  'date'      => 'text',
@@ -26,7 +32,10 @@ my $data_type = {'id'        => 'int',
                  'e_comp'    => 'text',
                  'e_line'    => 'text',
                  'fare'      => 'text',
-                 'balance'   => 'text'
+                 'balance'   => 'text',
+
+                 'filename'  => 'text default null',
+                 'registration_date' => 'text default null'
                  };
 
 
@@ -38,7 +47,7 @@ my $dbh = DBI->connect("dbi:SQLite:dbname=test.db");
 my $fieldlist = join ',',@fields;
 
 my $typelist;
-foreach (@fields){
+foreach (@main_fields){
     $typelist .= $_." ".$data_type->{$_}.",";
 }
 
@@ -52,7 +61,8 @@ while(my $columns = $csv->getline($fh)){
     #ハッシュにマッピング
     my $eles;
     @$eles{@fields} = @$columns;
-
+    $eles->{'filename'} = $filename;
+    $eles->{'registration_date'}     = $date;
 
     #タイトル行を飛ばす
     next if($eles->{'id'} eq "ID");
