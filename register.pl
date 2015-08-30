@@ -46,10 +46,10 @@ my $dbh = DBI->connect("dbi:SQLite:dbname=test.db");
 
 my $fieldlist = join ',',@fields;
 
-my $typelist;
-foreach (@main_fields){
-    $typelist .= $_." ".$data_type->{$_}.",";
-}
+
+
+
+
 
 $dbh->do("create table if not exists suica ($fieldlist,primary key(id,date))");
 
